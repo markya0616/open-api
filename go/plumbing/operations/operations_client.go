@@ -205,6 +205,8 @@ type ClientService interface {
 
 	ProvisionSiteTLSCertificate(params *ProvisionSiteTLSCertificateParams, authInfo runtime.ClientAuthInfoWriter) (*ProvisionSiteTLSCertificateOK, error)
 
+	RenewSiteTLSCertificate(params *RenewSiteTLSCertificateParams, authInfo runtime.ClientAuthInfoWriter) (*RenewSiteTLSCertificateOK, error)
+
 	RestoreSiteDeploy(params *RestoreSiteDeployParams, authInfo runtime.ClientAuthInfoWriter) (*RestoreSiteDeployCreated, error)
 
 	RollbackSiteDeploy(params *RollbackSiteDeployParams, authInfo runtime.ClientAuthInfoWriter) (*RollbackSiteDeployNoContent, error)
@@ -3284,6 +3286,40 @@ func (a *Client) ProvisionSiteTLSCertificate(params *ProvisionSiteTLSCertificate
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ProvisionSiteTLSCertificateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  RenewSiteTLSCertificate renew site TLS certificate API
+*/
+func (a *Client) RenewSiteTLSCertificate(params *RenewSiteTLSCertificateParams, authInfo runtime.ClientAuthInfoWriter) (*RenewSiteTLSCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRenewSiteTLSCertificateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "renewSiteTLSCertificate",
+		Method:             "POST",
+		PathPattern:        "/sites/{site_id}/ssl/renew",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RenewSiteTLSCertificateReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RenewSiteTLSCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RenewSiteTLSCertificateDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
