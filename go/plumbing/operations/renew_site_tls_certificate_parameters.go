@@ -60,12 +60,6 @@ for the renew site TLS certificate operation typically these are written to a ht
 */
 type RenewSiteTLSCertificateParams struct {
 
-	/*CaCertificates*/
-	CaCertificates *string
-	/*Certificate*/
-	Certificate *string
-	/*Key*/
-	Key *string
 	/*SiteID*/
 	SiteID string
 
@@ -107,39 +101,6 @@ func (o *RenewSiteTLSCertificateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithCaCertificates adds the caCertificates to the renew site TLS certificate params
-func (o *RenewSiteTLSCertificateParams) WithCaCertificates(caCertificates *string) *RenewSiteTLSCertificateParams {
-	o.SetCaCertificates(caCertificates)
-	return o
-}
-
-// SetCaCertificates adds the caCertificates to the renew site TLS certificate params
-func (o *RenewSiteTLSCertificateParams) SetCaCertificates(caCertificates *string) {
-	o.CaCertificates = caCertificates
-}
-
-// WithCertificate adds the certificate to the renew site TLS certificate params
-func (o *RenewSiteTLSCertificateParams) WithCertificate(certificate *string) *RenewSiteTLSCertificateParams {
-	o.SetCertificate(certificate)
-	return o
-}
-
-// SetCertificate adds the certificate to the renew site TLS certificate params
-func (o *RenewSiteTLSCertificateParams) SetCertificate(certificate *string) {
-	o.Certificate = certificate
-}
-
-// WithKey adds the key to the renew site TLS certificate params
-func (o *RenewSiteTLSCertificateParams) WithKey(key *string) *RenewSiteTLSCertificateParams {
-	o.SetKey(key)
-	return o
-}
-
-// SetKey adds the key to the renew site TLS certificate params
-func (o *RenewSiteTLSCertificateParams) SetKey(key *string) {
-	o.Key = key
-}
-
 // WithSiteID adds the siteID to the renew site TLS certificate params
 func (o *RenewSiteTLSCertificateParams) WithSiteID(siteID string) *RenewSiteTLSCertificateParams {
 	o.SetSiteID(siteID)
@@ -158,54 +119,6 @@ func (o *RenewSiteTLSCertificateParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
-	if o.CaCertificates != nil {
-
-		// query param ca_certificates
-		var qrCaCertificates string
-		if o.CaCertificates != nil {
-			qrCaCertificates = *o.CaCertificates
-		}
-		qCaCertificates := qrCaCertificates
-		if qCaCertificates != "" {
-			if err := r.SetQueryParam("ca_certificates", qCaCertificates); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.Certificate != nil {
-
-		// query param certificate
-		var qrCertificate string
-		if o.Certificate != nil {
-			qrCertificate = *o.Certificate
-		}
-		qCertificate := qrCertificate
-		if qCertificate != "" {
-			if err := r.SetQueryParam("certificate", qCertificate); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.Key != nil {
-
-		// query param key
-		var qrKey string
-		if o.Key != nil {
-			qrKey = *o.Key
-		}
-		qKey := qrKey
-		if qKey != "" {
-			if err := r.SetQueryParam("key", qKey); err != nil {
-				return err
-			}
-		}
-
-	}
 
 	// path param site_id
 	if err := r.SetPathParam("site_id", o.SiteID); err != nil {

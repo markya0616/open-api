@@ -186,15 +186,6 @@ paths:
           type: string
           in: path
           required: true
-        - name: certificate
-          type: string
-          in: query
-        - name: key
-          type: string
-          in: query
-        - name: ca_certificates
-          type: string
-          in: query
       responses:
         '200':
           description: OK
